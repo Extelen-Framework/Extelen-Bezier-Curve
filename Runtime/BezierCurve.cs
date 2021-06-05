@@ -77,7 +77,6 @@ public class BezierCurve : MonoBehaviour
     }
     private void OnDrawGizmosSelected()
     {
-
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(LOWStartPoint, 0.2f);
         Gizmos.DrawWireSphere(LOWEndPoint, 0.2f);
@@ -90,20 +89,25 @@ public class BezierCurve : MonoBehaviour
         Gizmos.DrawLine(LOWEndPoint, LOWEndController);
 
         Gizmos.color = Color.blue;
-        List<Vector3> m_path = CalculateBezierPath();
+        List<Vector3> m_path = CalculateBezierPath(true);
 
         for (int i = 1; i < m_path.Count; i++)
         {
             Gizmos.DrawLine(m_path[i - 1], m_path[i]);
         }
     }
-    private List<Vector3> CalculateBezierPath()
+    private List<Vector3> CalculateBezierPath(bool calculateSpace)
     {
         m_path.Clear();
 
+        Vector3 m_sP = calculateSpace ? LOWStartPoint : StartPoint;
+        Vector3 m_sC = calculateSpace ? LOWStartController : StartController;
+        Vector3 m_eC = calculateSpace ? LOWEndController : EndController;
+        Vector3 m_eP = calculateSpace ? LOWEndPoint : EndPoint;
+
         for (int i = 0; i < m_lineQuality + 1; i++)
         {
-            m_path.Add(CalculateBezier((float)i / m_lineQuality, LOWStartPoint, LOWStartController, LOWEndController, LOWEndPoint));
+            m_path.Add(CalculateBezier((float)i / m_lineQuality, m_sP, m_sC, m_eC, m_eP));
         }
 
         return m_path;
@@ -133,6 +137,6 @@ public class BezierCurve : MonoBehaviour
         }
 
         m_lineRenderer.positionCount = m_lineQuality + 1;
-        m_lineRenderer.SetPositions(CalculateBezierPath().ToArray());
+        m_lineRenderer.SetPositions(CalculateBezierPath(false).ToArray());
     }
 }
