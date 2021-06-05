@@ -66,9 +66,13 @@ public class BezierCurve : MonoBehaviour
             if (m_lineRenderer)
             {
                 m_lineRenderer.widthMultiplier = 0.1f;
-                m_lineRenderer.useWorldSpace = m_useWorldSpace;
             }
         }
+        if (m_lineRenderer)
+        {
+            m_lineRenderer.useWorldSpace = m_useWorldSpace;
+        }
+
         ReCalculateBezierCurve();
     }
     private void OnDrawGizmosSelected()
