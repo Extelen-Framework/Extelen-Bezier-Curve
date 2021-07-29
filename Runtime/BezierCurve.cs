@@ -2,7 +2,6 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditorInternal;
 
 [ExecuteAlways]
 [RequireComponent(typeof(LineRenderer))]
@@ -61,7 +60,6 @@ public class BezierCurve : MonoBehaviour
         if (!m_lineRenderer)
         {
             TryGetComponent<LineRenderer>(out m_lineRenderer);
-            ComponentUtility.MoveComponentUp(this);
 
             if (m_lineRenderer)
             {
